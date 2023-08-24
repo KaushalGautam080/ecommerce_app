@@ -150,7 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 setState(() {
                                   // _selectedCategory.value = e;
                                   value = e;
-                                  selectedIndex = e.length;
+                                  selectedIndex = data
+                                      .indexWhere((element) => element == e);
                                 });
 
                                 // log(_selectedCategory.value.toString());
@@ -163,7 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   bottom: 10,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: selectedIndex == e.length
+                                  color: selectedIndex ==
+                                          data.indexWhere(
+                                              (element) => element == e)
                                       ? Colors.yellow
                                       : null,
                                   border: Border.all(color: Colors.black87),
@@ -180,6 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+
             value != null
                 ? DisplayCategory(
                     // category: _selectedCategory.value ?? "smartphones",

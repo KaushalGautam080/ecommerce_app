@@ -12,7 +12,7 @@ class ApiServices {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
-        log("Body $body");
+        // log("Body $body");
         return ProductModal.fromJson(body);
       } else {
         throw Exception(

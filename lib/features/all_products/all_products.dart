@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:api_practise/features/all_products/services/all_product_services.dart';
 import 'package:flutter/material.dart';
 
+import '../single_product/SingleProductPage.dart';
 import 'modal/all_product_modal.dart';
 
 class AllProducts extends StatefulWidget {
@@ -26,12 +27,19 @@ class _AllProductsState extends State<AllProducts> {
         } else {
           final data = snapshot.data;
           var product = data!.products;
-          log(data.toString());
+          // log(data.toString());
           return Column(
             children: [
               ...product!.map(
                 (e) => InkWell(
                   onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SingleProductPage(
+                          id: e.id.toString(),
+                        ),
+                      ),
+                    );
                     log("${e.id} pressed");
                   },
                   child: Container(
@@ -76,7 +84,6 @@ class _AllProductsState extends State<AllProducts> {
                                 children: [
                                   const Icon(Icons.star),
                                   Text(e.rating.toString()),
-                                  Text(e.stock.toString()),
                                 ],
                               ),
                             ),

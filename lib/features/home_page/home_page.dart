@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:api_practise/features/home_page/widgets/custom_cart_container.dart';
 import 'package:api_practise/features/home_screen/home_screem.dart';
+import 'package:api_practise/features/single_product/provider/cart_provider.dart';
 import 'package:api_practise/page4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../page2.dart';
 import '../../page3.dart';
@@ -23,10 +26,38 @@ class _HomePageState extends State<HomePage> {
     const Page3(),
     const Page4(),
   ];
-
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      endDrawer: Drawer(
+        child: Consumer<AddToCart>(
+          builder: (context, value, child) {
+            return Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: const Text(
+                    "My Cart",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ...value.cartProducts.map(
+                  (e) => CustomCartContainer(
+                    price: e.price.toString(),
+                    title: e.title.toString(),
+                    quantity: value.value.toString(),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
       appBar: AppBar(
         toolbarHeight: 90,
         shape: const RoundedRectangleBorder(
@@ -47,6 +78,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           InkWell(
             onTap: () {
+              _drawerKey.currentState?.openEndDrawer();
               log("cart button pressed");
             },
             child: Container(
@@ -73,8 +105,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: pages[pageIndex],
       bottomNavigationBar: Container(
-        height: 50,
+        height: 80,
         decoration: const BoxDecoration(
+            // color: Colors.black87.withOpacity(1),
             borderRadius: BorderRadius.only(
           topRight: Radius.circular(30),
           topLeft: Radius.circular(30),
@@ -91,8 +124,8 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Tab(
                 icon: pageIndex == 0
-                    ? SvgPicture.asset("images/selhome_icon.svg")
-                    : SvgPicture.asset("images/unselhome_icon.svg"),
+                    ? Image.asset("images/selectedHome.png")
+                    : Image.asset("images/unSelectedHome.png"),
               ),
             ),
             //search button

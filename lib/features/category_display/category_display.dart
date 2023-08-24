@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:api_practise/features/category_display/services/category_display_services.dart';
+import 'package:api_practise/features/single_product/SingleProductPage.dart';
 import 'package:flutter/material.dart';
 
 import 'modal/product_modal.dart';
@@ -38,6 +39,13 @@ class _DisplayCategoryState extends State<DisplayCategory> {
                 ...product!.map(
                   (e) => InkWell(
                     onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SingleProductPage(
+                            id: e.id.toString(),
+                          ),
+                        ),
+                      );
                       log("${e.id} pressed");
                     },
                     child: Container(
